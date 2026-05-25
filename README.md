@@ -17,29 +17,11 @@ Concretely, this add-on lets you:
 ## How it plugs into Nai
 
 ```mermaid
-flowchart TB
-    User([You])
-    Agent[Nai top-level<br/>Workspace Agent]
-
-    subgraph Control [Project-level control point]
-        Design[(Design/ git repo)]
-        Target[Design/Target.md<br/>index of corpus]
-        Target --- Design
-    end
-
-    subgraph Impl [Implementation surface]
-        WS[Workspaces/*]
-        Repos[(Your code repos)]
-        WS --> Repos
-    end
-
-    User -- "1. define / 2. scan / 3. edit" --> Agent
-    Agent -- read / edit / commit / revert --> Design
-    Agent -- scan existing code --> Repos
-    Repos -. derive design .-> Design
-
-    Design -- "4. drift to issues,<br/>workspaces, migration steps" --> Agent
-    Agent -- creates --> WS
+flowchart LR
+    Start[Initial design<br/>Design/Target.md] --> Edit[Edit design<br/>with agent]
+    Edit --> Commit[Commit in Design/]
+    Commit --> Migration[Migration:<br/>Issue + Branch + Workspace]
+    Migration --> Nai[Standard Nai flow<br/>Research / Planner / Worker / Reviewer]
 ```
 
 The main Nai workflow (Git / Research / Planner / Worker / Reviewer roles, per-workspace git worktrees, queue-based execution) stays exactly the same. This add-on adds **one top-level repository**, `Design/`, next to `Workspaces/`, `Scripts/`, and `Prompts/`.
