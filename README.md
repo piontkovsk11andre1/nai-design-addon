@@ -20,7 +20,12 @@ Concretely, this add-on lets you:
 flowchart LR
     subgraph WA [Workspace Agent]
         direction LR
-        Start[Initial design<br/>Design/Target.md] --> Edit[Edit design]
+        Write[Write new design]
+        Parse[Parse design from<br/>present implementation]
+        Start[Initial design<br/>Design/Target.md]
+        Write --> Start
+        Parse --> Start
+        Start --> Edit[Edit design]
         Edit --> Commit[Commit in Design/]
         Commit --> Migration[Create migration]
     end
