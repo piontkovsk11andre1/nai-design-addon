@@ -18,10 +18,16 @@ Concretely, this add-on lets you:
 
 ```mermaid
 flowchart LR
-    Start[Initial design<br/>Design/Target.md] --> Edit[Edit design<br/>with agent]
-    Edit --> Commit[Commit in Design/]
-    Commit --> Migration[Migration:<br/>Issue + Branch + Workspace]
-    Migration --> Nai[Standard Nai flow<br/>Research / Planner / Worker / Reviewer]
+    subgraph WA [Workspace Agent]
+        direction LR
+        Start[Initial design<br/>Design/Target.md] --> Edit[Edit design]
+        Edit --> Commit[Commit in Design/]
+        Commit --> Migration[Create migration]
+    end
+
+    Migration --> Issue[Issue]
+    Migration --> Workspace[Workspace]
+    Workspace --> Nai[Standard Nai flow]
 ```
 
 The main Nai workflow (Git / Research / Planner / Worker / Reviewer roles, per-workspace git worktrees, queue-based execution) stays exactly the same. This add-on adds **one top-level repository**, `Design/`, next to `Workspaces/`, `Scripts/`, and `Prompts/`.
